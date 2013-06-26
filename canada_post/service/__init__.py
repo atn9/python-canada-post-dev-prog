@@ -66,6 +66,8 @@ class Service(object):
             self.link = data.get('link', {})
             self.name = data.get('name', 'UNDEFINED')
             self.price = data.get('price', Price())
+            self.expected_transit_time = data.get('expected_transit_time', '')
+            self.expected_delivery_date = data.get('expected_delivery_date', '')
 
     def __repr__(self):
         return "Service(data={{ code='{code}', link='{link}', name='{name}', " \
@@ -82,6 +84,8 @@ class Service(object):
         self.link = dict(xml.find("service-link").attrib)
         self.name = xml.find("service-name").text
         self.price = self._price_from_xml(xml.find("price-details"))
+        self.expected_transit_time = xml.find("service-standard").find("expected-transit-time").text
+        self.expected_delivery_date = xml.find("service-standard").find("expected-delivery-date").text
 
     def _price_from_xml(self, xml):
         """
